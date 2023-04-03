@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Brunch</title>
+  <script src="js/loadScanner.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="video-container">
+      <video id="video"></video>
+    </div>
+    <div class="devices"><select name="" id="devices"></select></div>
+  </div>
+  <script>
+    setTimeout(() => {
+      let ok = (...args) => console.log(...args)
+      let fail = (...args) => console.error(...args)
+
+      window.scanner.load((ok, fail) => {
+        console.log('Scanner loaded!')
+        let element = document.getElementById('video')
+        let callback = console.log.bind(console)
+
+        let selectDevice = (event) => {
+          let index = event.currentTarget.selectedIndex
+          let option = event.currentTarget.options[index]
+          window.scanner.select(option.value)
+          window.scanner.show(element, callback)
+        }
+
+        window.scanner.list().then(devices => {
+          let select = document.getElementById('devices')
+
+          if (devices.length === 0) {
+            return
+          } else if (devices.length === 1) {
+            select.style.display = 'none'
+          } else { 
+            select.onchange = selectDevice
+
+            devices
+              .sort((a, b) => {
+                if (a.label === b.label) return 0;
+                if (a.label > b.label) return 1;
+                return -1;
+              })
+              .forEach((device, index) => {
+                let option = document.createElement('option')
+                option.value = device.deviceId
+                option.text = device.label || 'Camera ' + (index + 1)
+                select.append(option)
+              })
+          }
+
+          window.scanner.select(devices[0].deviceId)
+          window.scanner.show(element, callback)
+        })
+      })
+    }, 1000)
+  </script>
+</body>

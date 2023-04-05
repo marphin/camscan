@@ -11,6 +11,7 @@
       <video id="video"></video>
     </div>
     <div class="devices"><select name="" id="devices"></select></div>
+    <div id="id"></div>
   </div>
   <script>
     setTimeout(() => {
@@ -18,15 +19,26 @@
       let fail = (...args) => console.error(...args)
 
       window.scanner.load((ok, fail) => {
+        let id = document.getElementById('id')
+        id.innerText
         console.log('Scanner loaded!')
         let element = document.getElementById('video')
         let callback = console.log.bind(console)
+
+        let details = () => {
+          setTimeout(() => {
+            let obj = element.srcObject
+            let tracks = obj.getTracks()
+            id.innerText = tracks[0].label || 'xyz'
+          }, 1000)
+        }
 
         let selectDevice = (event) => {
           let index = event.currentTarget.selectedIndex
           let option = event.currentTarget.options[index]
           window.scanner.select(option.value)
           window.scanner.show(element, callback)
+          details()
         }
 
         window.scanner.list().then(devices => {
@@ -54,6 +66,7 @@
           }
 
           window.scanner.show(element, callback)
+          details()
         })
       })
     }, 1000)

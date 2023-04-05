@@ -25,20 +25,11 @@
         let element = document.getElementById('video')
         let callback = console.log.bind(console)
 
-        let details = () => {
-          setTimeout(() => {
-            let obj = element.srcObject
-            let tracks = obj.getTracks()
-            id.innerText = tracks[0].label || 'xyz'
-          }, 1000)
-        }
-
         let selectDevice = (event) => {
           let index = event.currentTarget.selectedIndex
           let option = event.currentTarget.options[index]
           window.scanner.select(option.value)
           window.scanner.show(element, callback)
-          details()
         }
 
         window.scanner.list().then(devices => {
@@ -66,7 +57,13 @@
           }
 
           window.scanner.show(element, callback)
-          details()
+
+          element.addEventListener('resize', () => {
+            let obj = element.srcObject
+            let tracks = obj.getTracks()
+            id.innerText = tracks[0].label || 'xyz'
+          })
+
         })
       })
     }, 1000)

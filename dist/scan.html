@@ -37,8 +37,8 @@
 
           if (devices.length === 0) {
             return
-          } else if (devices.length === 1) {
-            select.style.display = 'none'
+          // } else if (devices.length === 1) {
+          //   select.style.display = 'none'
           } else { 
             select.onchange = selectDevice
 
@@ -59,7 +59,7 @@
           }
 
           if (select.options.length) {
-            window.scanner.selet(select.options[0].value)
+            window.scanner.select(select.options[0].value)
           }
 
           window.scanner.show(element, callback)

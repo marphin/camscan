@@ -54,6 +54,12 @@
                 option.text = device.label || 'Camera ' + (index + 1)
                 select.append(option)
               })
+
+            // select.options.
+          }
+
+          if (select.options.length) {
+            window.scanner.selet(select.options[0].value)
           }
 
           window.scanner.show(element, callback)

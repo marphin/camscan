@@ -11,7 +11,7 @@
       <video id="video"></video>
     </div>
     <div class="devices"><select name="" id="devices"></select></div>
-    <div id="id"></div>
+    <div id="id" style="white-space: pre;"></div>
   </div>
   <script>
     setTimeout(() => {
@@ -20,10 +20,18 @@
 
       window.scanner.load((ok, fail) => {
         let id = document.getElementById('id')
-        id.innerText
         console.log('Scanner loaded!')
         let element = document.getElementById('video')
-        let callback = console.log.bind(console)
+        let callback = (text) => {
+          console.log.bind(console)
+          let result = document.createTextNode(`${new Date().toISOString()}\n${text}\n`)
+
+          id.appendChild(result)
+        }
+
+        id.onclick = () => {
+          id.innerText = ''
+        }
 
         let selectDevice = (event) => {
           let index = event.currentTarget.selectedIndex
@@ -55,22 +63,10 @@
                 option.text = device.label || 'Camera ' + (index + 1)
                 select.append(option)
               })
-
-            // select.options.
           }
 
-          if (select.options.length) {
-            // window.scanner.select(select.options[0].value)
-          }
-
+          select.style.display = 'none'
           window.scanner.show(element, callback)
-
-          element.addEventListener('resize', () => {
-            let obj = element.srcObject
-            let tracks = obj.getTracks()
-            id.innerText = tracks[0].label || 'xyz'
-          })
-
         })
       })
     }, 1000)

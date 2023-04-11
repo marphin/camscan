@@ -28,6 +28,7 @@
         let selectDevice = (event) => {
           let index = event.currentTarget.selectedIndex
           let option = event.currentTarget.options[index]
+          window.scanner.reset()
           window.scanner.select(option.value)
           window.scanner.show(element, callback)
         }

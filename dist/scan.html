@@ -67,6 +67,11 @@
 
           select.style.display = 'none'
           window.scanner.show(element, callback)
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+              window.scanner.show(element, callback)
+            }
+          })
         })
       })
     }, 1000)

@@ -69,6 +69,7 @@
           window.scanner.show(element, callback)
           document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') {
+              window.scanner.reset()
               window.scanner.show(element, callback)
             }
           })
